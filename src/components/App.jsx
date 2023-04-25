@@ -1,6 +1,3 @@
-//import toast, { Toaster } from 'react-hot-toast';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Component } from 'react';
 import * as FetchImages from './API/FetchImages';
 import { Container } from './APP.styled';
@@ -32,27 +29,7 @@ export class App extends Component {
 
   fetchImages = async (query, page) => {
     try {
-      const { hits, totalHits, images } = await FetchImages.getImages(
-        query,
-        page
-      );
-
-      const notify = () =>
-        toast.error(
-          'Sorry, there are no images matching your request. Please try again.',
-          {
-            position: toast.POSITION.TOP_CENTER,
-          }
-        );
-
-      if (images.length === totalHits) {
-        return toast.error(
-          'Sorry, there are no images matching your request. Please try again.',
-          {
-            position: toast.POSITION.TOP_CENTER,
-          }
-        );
-      }
+      const { hits, totalHits } = await FetchImages.getImages(query, page);
 
       this.setState(prevState => ({
         images: [...prevState.images, ...hits],
@@ -113,8 +90,7 @@ export class App extends Component {
           onGetImages={this.getLargeImage}
           toggleSpinner={this.toggleSpinner}
         />
-        <ToastContainer autoClose={3000} />
-        {/* <Toaster /> */}
+
         {this.state.error && (
           <p textAlign="center">
             Sorry. Something went wrong!!! Please try again!
